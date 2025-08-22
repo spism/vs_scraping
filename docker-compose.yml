@@ -13,8 +13,8 @@ services:
         WORKDIR /app
         RUN python -m pip install --upgrade pip wheel setuptools && \
             pip install --no-cache-dir \
-              requests==2.32.3 beautifulsoup4==4.12.3 lxml==5.2.1 Pillow==10.4.0 \
-              newspaper3k==0.2.8 trafilatura==1.8.1
+              requests beautifulsoup4 lxml Pillow \
+              newspaper3k trafilatura
         COPY . .
         CMD ["python", "worker.py"]
 
