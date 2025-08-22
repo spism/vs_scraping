@@ -12,7 +12,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger("worker")
 
-INTERVAL_SECONDS = int(os.getenv("SCRAPE_INTERVAL_SECONDS", "600"))  # default 15min
+INTERVAL_SECONDS = int(os.getenv("SCRAPE_INTERVAL_SECONDS", "1800"))  # default 30min
 RUN_AT_START = os.getenv("RUN_AT_START", "true").lower() == "true"
 ALLOW_OVERLAP = os.getenv("ALLOW_OVERLAP", "false").lower() == "true"
 
