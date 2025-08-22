@@ -1,0 +1,20 @@
+services:
+  scraper:
+    image: python:3.12-slim
+    container_name: flask-app
+    working_dir: /app
+    volumes:
+      - .:/app
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_APP: scraper_tests.py
+      FLASK_RUN_HOST: 0.0.0.0
+      FLASK_RUN_PORT: 5000
+      FLASK_ENV: production
+      PYTHONUNBUFFERED: "1"
+    command: >
+      sh -c "pip install --no-cache-dir -r requirements.txt &&
+             flask run"
+    restart: always

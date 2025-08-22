@@ -1,0 +1,4 @@
+flask
+beautifulsoup4
+newspaper3k
+trafilatura
