@@ -30,7 +30,7 @@ def serialize(articles: List[NewsArticle]):
 
 def run_scrape_job() -> list[list[NewsArticle]]:
     """Scrape all feeds, write to dated file, return articles."""
-    curr_date = datetime.now().strftime("%Y-%m-%d %H:%M")
+    curr_date = datetime.now().strftime("%Y-%m-%d_%H:%M")
     os.makedirs("data/unlabelled", exist_ok=True)
     path = f"data/unlabelled/{curr_date}.txt"
 
