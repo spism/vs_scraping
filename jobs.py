@@ -9,18 +9,38 @@ import requests
 from scraper import scrape_articles, NewsArticle
 
 # Keep your URL lists in one place
-RSS_URLS = [
-    "https://www.sme.sk/rss-title",
-    "https://dennikn.sk/feed",
-    "https://spravy.pravda.sk/rss/xml/",
-    "https://www.aktuality.sk/rss/",
-    "https://www.hlavnespravy.sk/feed/",
-    "https://www.dobrenoviny.sk/rss",
-    "https://zive.aktuality.sk/rss/najnovsie/",
-    "https://www.news.sk/feed/",
-    "https://standard.sk/feed",
-    "https://spravy.stvr.sk/feed/",
-]
+RSS_URLS = ["https://www.sme.sk/rss-title",
+"https://dennikn.sk/feed", # https://dennikn.sk/rss-odber/
+"https://spravy.pravda.sk/rss/xml/",
+"https://www.aktuality.sk/rss/",
+"https://www.hlavnespravy.sk/feed/", # gives file
+"https://www.dobrenoviny.sk/rss", # file
+"https://zive.aktuality.sk/rss/najnovsie/",
+"https://www.news.sk/feed/",
+"https://standard.sk/feed",
+"https://spravy.stvr.sk/feed/", # file
+"https://www.topky.sk/rss/10/Spravy_-_Domace.rss"]
+NON_RSS_URLS = ["https://hn24.hnonline.sk/hn24",
+"https://www.postoj.sk/dnes-treba-vediet",
+"https://tvnoviny.sk/prehlad-dna",
+"https://www.noviny.sk/minuta-po-minute/e205daae-7500-483b-bb81-6728ce8a49c5",
+"https://www.cas.sk/r/spravy"]
+URLS = ["https://www.sme.sk/rss-title",
+"https://dennikn.sk/feed", # https://dennikn.sk/rss-odber/
+"https://spravy.pravda.sk/rss/xml/",
+"https://www.aktuality.sk/rss/",
+"https://www.hlavnespravy.sk/feed/", # gives file
+"https://www.dobrenoviny.sk/rss", # file
+"https://zive.aktuality.sk/rss/najnovsie/",
+"https://www.news.sk/feed/",
+"https://standard.sk/feed",
+"https://spravy.stvr.sk/feed/", # file
+"https://www.topky.sk/rss/10/Spravy_-_Domace.rss",
+"https://hn24.hnonline.sk/hn24",
+"https://www.postoj.sk/dnes-treba-vediet",
+"https://tvnoviny.sk/prehlad-dna",
+"https://www.noviny.sk/minuta-po-minute/e205daae-7500-483b-bb81-6728ce8a49c5",
+"https://www.cas.sk/r/spravy"]
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +56,7 @@ def run_scrape_job() -> list[list[NewsArticle]]:
 
     all_articles: list[list[NewsArticle]] = []
     with open(path, "a", encoding="utf-8") as f:  # append in case multiple runs/day
-        for url in RSS_URLS:
+        for url in URLS:
             try:
                 articles = scrape_articles(url)
                 for article in articles:

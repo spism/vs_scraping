@@ -1,8 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 from newspaper import Article
+from newspaper.article import ArticleDownloadState
 import trafilatura
 import json
+
 
 class NewsArticle:
     """
@@ -68,6 +70,7 @@ def scrape_articles(url):
     :return: A list of NewsArticle objects containing info on each article scraped.
     """
     articles = []
+    original_url = None
     response = requests.get(url)
     # print("url received")
     soup = BeautifulSoup(response.content, features="xml")
@@ -126,6 +129,8 @@ def scrape_articles(url):
         if original_url is not None:
             article = Article(original_url)
             article.download()
+            if article.download_state == ArticleDownloadState.FAILED_RESPONSE or article.download_state == ArticleDownloadState.NOT_STARTED:
+                continue
             article.parse()
             # TODO there is also a .nlp() function, can explore what this does, could be useful
             # seems to provide a summary/basic semantic analysis
