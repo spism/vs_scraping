@@ -44,6 +44,17 @@ class NewsArticle:
     def rowify(self):
         return f"{self.title},{self.pub_date},{self.link},{self.source},{self.content},{self.image_link},{self.political_bias},{self.economic_bias}"
 
+    def to_dict(self):
+        return {"title": self.title,
+                "pub_date": self.pub_date,
+                "link": self.link,
+                "source": self.source,
+                "content": self.content,
+                "image_link": self.image_link,
+                "political_bias": self.political_bias,
+                "economic_bias": self.economic_bias
+                }
+
 def scrape_articles(url):
     """
     Scrapes all articles from the designated news url.

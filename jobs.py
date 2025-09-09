@@ -9,22 +9,6 @@ import requests
 from scraper import scrape_articles, NewsArticle
 
 # Keep your URL lists in one place
-RSS_URLS = ["https://www.sme.sk/rss-title",
-"https://dennikn.sk/feed", # https://dennikn.sk/rss-odber/
-"https://spravy.pravda.sk/rss/xml/",
-"https://www.aktuality.sk/rss/",
-"https://www.hlavnespravy.sk/feed/", # gives file
-"https://www.dobrenoviny.sk/rss", # file
-"https://zive.aktuality.sk/rss/najnovsie/",
-"https://www.news.sk/feed/",
-"https://standard.sk/feed",
-"https://spravy.stvr.sk/feed/", # file
-"https://www.topky.sk/rss/10/Spravy_-_Domace.rss"]
-NON_RSS_URLS = ["https://hn24.hnonline.sk/hn24",
-"https://www.postoj.sk/dnes-treba-vediet",
-"https://tvnoviny.sk/prehlad-dna",
-"https://www.noviny.sk/minuta-po-minute/e205daae-7500-483b-bb81-6728ce8a49c5",
-"https://www.cas.sk/r/spravy"]
 URLS = ["https://www.sme.sk/rss-title",
 "https://dennikn.sk/feed", # https://dennikn.sk/rss-odber/
 "https://spravy.pravda.sk/rss/xml/",
@@ -59,12 +43,19 @@ def run_scrape_job() -> list[list[NewsArticle]]:
         for url in URLS:
             try:
                 articles = scrape_articles(url)
-                for article in articles:
-                    f.write(article.stringify() + "\n")
-                all_articles.append(articles)
+                all_articles.extend(articles)
                 logger.info("Scraped %d articles from %s", len(articles), url)
             except Exception as e:
                 logger.exception("Failed scraping %s: %s", url, e)
+
+        f.write("[")
+        i = 0
+        for article in all_articles:
+            if i > 0:
+                f.write(",")
+            f.write(json.dumps(article.to_dict(), default=str, ensure_ascii=False))
+            i += 1
+        f.write("]")
 
     return all_articles
 
